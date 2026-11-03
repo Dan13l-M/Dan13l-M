@@ -1,0 +1,59 @@
+name: update-cards
+
+on:
+  schedule:
+    # Daily; an odd minute avoids the top-of-hour queue on shared runners.
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "config.toml"
+      - "src/**"
+      - "assets/**"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/update-cards.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-cards
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Install
+        run: uv sync --locked
+
+      - name: Check
+        run: |
+          uv run ruff check .
+          uv run mypy
+          uv run pytest -q
+
+      - name: Render panels
+        run: uv run python -m profile_cards
+        env:
+          # PROFILE_TOKEN (fine-grained, read-only) lets private repos count toward
+          # languages; without it the default token only sees public data.
+          GH_TOKEN: ${{ secrets.PROFILE_TOKEN || github.token }}
+
+      - name: Commit changed panels
+        run: |
+          git add generated README.md
+          if git diff --cached --quiet; then
+            echo "Panels unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(cards): refresh generated panels"
+          git push
