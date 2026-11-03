@@ -45,6 +45,13 @@ def main(argv: list[str] | None = None) -> int:
         print(f"error: {exc}", file=sys.stderr)
         return 1
 
+    # A token that only sees public data still "works", so log what it saw to catch that.
+    private = sum(r.is_private for r in profile.repos)
+    print(
+        f"repos visible: {len(profile.repos)} ({private} private), "
+        f"contributions: {profile.total_contributions}"
+    )
+
     today = args.today or datetime.now(UTC).date()
     ctx = Context(cfg=cfg, profile=profile, fonts=font_css(args.fonts), today=today)
     files = render_all(ctx)

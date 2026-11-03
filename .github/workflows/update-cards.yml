@@ -40,7 +40,9 @@ jobs:
           uv run pytest -q
 
       - name: Render panels
-        run: uv run python -m profile_cards
+        run: |
+          echo "token source: ${{ secrets.PROFILE_TOKEN != '' && 'PROFILE_TOKEN' || 'default GITHUB_TOKEN' }}"
+          uv run python -m profile_cards
         env:
           # PROFILE_TOKEN (fine-grained, read-only) lets private repos count toward
           # languages; without it the default token only sees public data.
