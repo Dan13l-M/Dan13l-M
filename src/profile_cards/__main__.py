@@ -8,9 +8,16 @@ import os
 import sys
 from datetime import UTC, date, datetime
 from pathlib import Path
+from typing import Any
 
 from profile_cards.config import ConfigError, load_config
-from profile_cards.github import GitHubError, fetch_payload, parse_profile
+from profile_cards.github import (
+    GitHubError,
+    fetch_payload,
+    fetch_viewer_payload,
+    parse_profile,
+    viewer_login,
+)
 from profile_cards.panels import Context, crew_markdown, inject_crew, render_all
 from profile_cards.svg import font_css
 
@@ -32,6 +39,7 @@ def main(argv: list[str] | None = None) -> int:
     args = _parse_args(argv)
     try:
         cfg = load_config(args.config)
+        viewer: dict[str, Any] | None = None
         if args.fixture:
             payload = json.loads(args.fixture.read_text(encoding="utf-8"))
         else:
@@ -40,15 +48,17 @@ def main(argv: list[str] | None = None) -> int:
                 print("error: set GH_TOKEN or GITHUB_TOKEN, or pass --fixture", file=sys.stderr)
                 return 2
             payload = fetch_payload(cfg.identity.login, token)
-        profile = parse_profile(payload)
+            viewer = fetch_viewer_payload(token)
+        profile = parse_profile(payload, viewer)
     except (ConfigError, GitHubError, OSError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
 
     # A token that only sees public data still "works", so log what it saw to catch that.
     private = sum(r.is_private for r in profile.repos)
+    source = "viewer" if viewer_login(viewer) == cfg.identity.login else "user"
     print(
-        f"repos visible: {len(profile.repos)} ({private} private), "
+        f"repos visible: {len(profile.repos)} ({private} private, via {source}), "
         f"contributions: {profile.total_contributions}"
     )
 

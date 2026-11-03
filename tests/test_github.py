@@ -29,6 +29,33 @@ def test_repo_without_language(profile: Profile) -> None:
     assert showcase.languages == {}
 
 
+def _viewer(login: str) -> dict[str, Any]:
+    node = {
+        "name": "secret-lab",
+        "isPrivate": True,
+        "stargazerCount": 0,
+        "primaryLanguage": {"name": "Python", "color": "#3572A5"},
+        "languages": {"edges": [{"size": 500, "node": {"name": "Python", "color": "#3572A5"}}]},
+    }
+    return {"data": {"viewer": {"login": login, "repositories": {"nodes": [node]}}}}
+
+
+def test_viewer_repos_replace_user_repos_for_the_owner(payload: dict[str, Any]) -> None:
+    profile = parse_profile(payload, _viewer("dan13l-m"))
+    assert [r.name for r in profile.repos] == ["secret-lab"]
+    assert profile.repos[0].is_private
+
+
+@pytest.mark.parametrize("viewer", [None, {"errors": [{"message": "nope"}]}, {"data": {}}])
+def test_missing_viewer_keeps_user_repos(payload: dict[str, Any], viewer: Any) -> None:
+    assert parse_profile(payload, viewer).repo("UrbanFlow") is not None
+
+
+def test_someone_elses_viewer_is_ignored(payload: dict[str, Any]) -> None:
+    profile = parse_profile(payload, _viewer("github-actions[bot]"))
+    assert profile.repo("secret-lab") is None
+
+
 @pytest.mark.parametrize(
     "bad",
     [
