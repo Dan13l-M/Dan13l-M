@@ -4,7 +4,7 @@ from datetime import date, timedelta
 
 import pytest
 
-from profile_cards.metrics import levels, streaks, top_languages
+from profile_cards.metrics import streaks, top_languages
 from profile_cards.models import ContributionDay, Repo
 
 TODAY = date(2026, 11, 3)
@@ -31,24 +31,6 @@ def _days(counts: list[int]) -> list[ContributionDay]:
 def test_streaks(counts: list[int], current: int, longest: int) -> None:
     result = streaks(_days(counts), TODAY)
     assert (result.current, result.longest) == (current, longest)
-
-
-@pytest.mark.parametrize(
-    ("counts", "expected"),
-    [
-        ([0, 0], [0, 0]),
-        ([0, 5], [0, 1]),
-        ([0, 1, 2, 3, 4, 5, 6, 7, 8], [0, 1, 1, 2, 2, 3, 3, 4, 4]),
-    ],
-)
-def test_levels(counts: list[int], expected: list[int]) -> None:
-    assert levels(counts) == expected
-
-
-def test_levels_are_monotonic() -> None:
-    counts = [0, 3, 1, 9, 4, 4, 2, 15]
-    pairs = sorted(zip(counts, levels(counts), strict=True))
-    assert [lv for _, lv in pairs] == sorted(lv for _, lv in pairs)
 
 
 def _repo(name: str, languages: dict[str, int]) -> Repo:

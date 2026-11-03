@@ -29,9 +29,7 @@
 
 <img src="generated/classified.svg" width="100%" alt="Classified files: private projects mochi-api, MD Studio and OmniTutor."/>
 
-<img src="generated/power.svg" width="100%" alt="Power level: contributions, commits, pull requests, streak and top languages."/>
-
-<img src="generated/voyage.svg" width="100%" alt="Contribution calendar for the last 12 months."/>
+<img src="generated/power.svg" width="100%" alt="Power level: contributions, active days, repositories, streak and top languages."/>
 
 <img src="generated/training.svg" width="100%" alt="Training log: what I am learning, round by round, ending with InsightFlow."/>
 

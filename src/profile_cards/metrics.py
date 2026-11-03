@@ -1,11 +1,10 @@
-"""Derived numbers: streaks, contribution levels, language shares."""
+"""Derived numbers: streaks and language shares."""
 
 from __future__ import annotations
 
-from collections.abc import Iterable, Sequence
+from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import date, timedelta
-from statistics import quantiles
 
 from profile_cards.models import ContributionDay, Repo
 
@@ -37,25 +36,6 @@ def streaks(days: Iterable[ContributionDay], today: date) -> Streaks:
         longest = max(longest, run)
         previous = day
     return Streaks(current, longest)
-
-
-def levels(counts: Sequence[int]) -> list[int]:
-    """Map counts to 0-4 by quartiles of the non-zero days, the way GitHub shades its graph."""
-    nonzero = sorted(c for c in counts if c > 0)
-    if not nonzero:
-        return [0] * len(counts)
-    cuts: list[float]
-    if len(nonzero) == 1:
-        cuts = [float(nonzero[0])] * 3
-    else:
-        cuts = quantiles(nonzero, n=4, method="inclusive")
-
-    def level(count: int) -> int:
-        if count <= 0:
-            return 0
-        return 1 + sum(count > cut for cut in cuts)
-
-    return [level(c) for c in counts]
 
 
 @dataclass(frozen=True)

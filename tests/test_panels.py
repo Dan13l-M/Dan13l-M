@@ -56,7 +56,7 @@ def test_live_numbers_reach_the_panels(ctx: Context) -> None:
 def test_panels_render_with_no_activity(ctx: Context) -> None:
     empty = dataclasses.replace(ctx.profile, days=(), repos=(), total_contributions=0)
     files = render_all(dataclasses.replace(ctx, profile=empty))
-    assert "no contributions recorded yet" in files["voyage.svg"]
+    assert "0d" in files["power.svg"]
     assert "no language data yet" in files["power.svg"]
 
 

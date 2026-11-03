@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from collections.abc import Callable
 from dataclasses import dataclass
-from datetime import date, timedelta
+from datetime import date
 
 from profile_cards import metrics
 from profile_cards.config import Config, CrewItem, Status
@@ -36,8 +36,6 @@ from profile_cards.svg import (
     text,
     wrap,
 )
-
-MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 
 
 @dataclass(frozen=True)
@@ -430,65 +428,6 @@ def power(ctx: Context) -> str:
     return document(WIDTH, 306, "Power level: GitHub stats", "".join(parts), ctx.fonts)
 
 
-def voyage(ctx: Context) -> str:
-    days = sorted(ctx.profile.days, key=lambda d: d.day)
-    parts = [header("航海日誌", "VOYAGE LOG", "// contribution calendar · live")]
-    if not days:
-        parts.append(text(28, 110, "no contributions recorded yet", size=13, fill=DIMMER))
-        return document(WIDTH, 150, "Contribution calendar", "".join(parts), ctx.fonts)
-
-    # GitHub weeks start on Sunday: column = week index, row = weekday.
-    start = days[0].day - timedelta(days=(days[0].day.weekday() + 1) % 7)
-    cols = (days[-1].day - start).days // 7 + 1
-    x0, y0 = 64.0, 92.0
-    step = min(15.0, (WIDTH - x0 - 28) / cols)
-    cell = step - 3
-    palette = (PANEL_2, "#0b4f60", "#00a6b5", PURPLE, MAGENTA)
-    lv = metrics.levels([d.count for d in days])
-    recent = ctx.today - timedelta(days=6)
-
-    for label, row in (("Mon", 1), ("Wed", 3), ("Fri", 5)):
-        parts.append(text(28, y0 + row * step + cell - 2, label, size=10, fill=DIMMER))
-
-    last_month = None
-    for col in range(cols):
-        month = (start + timedelta(days=col * 7)).month
-        if month != last_month and col < cols - 2:
-            parts.append(text(x0 + col * step, y0 - 10, MONTHS[month - 1], size=10, fill=DIM))
-        last_month = month
-
-    cells = []
-    for day, level in zip(days, lv, strict=True):
-        offset = (day.day - start).days
-        col, row = offset // 7, offset % 7
-        pulse = ' class="pulse"' if day.day >= recent and day.count > 0 else ""
-        cells.append(
-            f'<rect{pulse} x="{num(x0 + col * step)}" y="{num(y0 + row * step)}" width="{num(cell)}" '
-            f'height="{num(cell)}" rx="2" fill="{palette[level]}"><title>{esc(day.day.isoformat())}: '
-            f"{day.count}</title></rect>"
-        )
-    parts.extend(cells)
-
-    bottom = y0 + 7 * step + 22
-    parts.append(
-        text(
-            28,
-            bottom,
-            f"{ctx.profile.total_contributions:,} contributions in the last year",
-            size=12,
-            fill=DIM,
-        )
-    )
-    lx = WIDTH - 28 - 5 * 15 - 40
-    parts.append(text(lx - 8, bottom, "less", size=10, fill=DIMMER, anchor="end"))
-    for i, color in enumerate(palette):
-        parts.append(
-            f'<rect x="{num(lx + i * 15)}" y="{num(bottom - 10)}" width="12" height="12" rx="2" fill="{color}"/>'
-        )
-    parts.append(text(lx + 5 * 15 + 4, bottom, "more", size=10, fill=DIMMER))
-    return document(WIDTH, bottom + 22, "Contribution calendar", "".join(parts), ctx.fonts)
-
-
 _STATUS_STYLE: dict[Status, tuple[str, str, bool]] = {
     "ring": ("IN THE RING", GREEN, True),
     "sparring": ("SPARRING", YELLOW, True),
@@ -552,7 +491,6 @@ STATIC_PANELS: dict[str, Panel] = {
     "crew.svg": crew_header,
     "classified.svg": classified,
     "power.svg": power,
-    "voyage.svg": voyage,
     "training.svg": training,
     "footer.svg": footer,
 }
