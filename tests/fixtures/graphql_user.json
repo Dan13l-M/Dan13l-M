@@ -1,0 +1,73 @@
+{
+  "data": {
+    "user": {
+      "login": "Dan13l-M",
+      "followers": { "totalCount": 3 },
+      "contributionsCollection": {
+        "totalCommitContributions": 40,
+        "totalPullRequestContributions": 5,
+        "totalPullRequestReviewContributions": 1,
+        "totalIssueContributions": 2,
+        "contributionCalendar": {
+          "totalContributions": 48,
+          "weeks": [
+            { "contributionDays": [
+              { "date": "2026-10-18", "contributionCount": 0 },
+              { "date": "2026-10-19", "contributionCount": 2 },
+              { "date": "2026-10-20", "contributionCount": 5 },
+              { "date": "2026-10-21", "contributionCount": 0 },
+              { "date": "2026-10-22", "contributionCount": 1 },
+              { "date": "2026-10-23", "contributionCount": 9 },
+              { "date": "2026-10-24", "contributionCount": 3 }
+            ] },
+            { "contributionDays": [
+              { "date": "2026-10-25", "contributionCount": 0 },
+              { "date": "2026-10-26", "contributionCount": 4 },
+              { "date": "2026-10-27", "contributionCount": 6 },
+              { "date": "2026-10-28", "contributionCount": 2 },
+              { "date": "2026-10-29", "contributionCount": 0 },
+              { "date": "2026-10-30", "contributionCount": 7 },
+              { "date": "2026-10-31", "contributionCount": 1 }
+            ] },
+            { "contributionDays": [
+              { "date": "2026-11-01", "contributionCount": 3 },
+              { "date": "2026-11-02", "contributionCount": 5 },
+              { "date": "2026-11-03", "contributionCount": 0 }
+            ] }
+          ]
+        }
+      },
+      "repositories": {
+        "nodes": [
+          {
+            "name": "UrbanFlow",
+            "isPrivate": false,
+            "stargazerCount": 2,
+            "primaryLanguage": { "name": "JavaScript", "color": "#f1e05a" },
+            "languages": { "edges": [
+              { "size": 9000, "node": { "name": "JavaScript", "color": "#f1e05a" } },
+              { "size": 4000, "node": { "name": "HTML", "color": "#e34c26" } }
+            ] }
+          },
+          {
+            "name": "mochi-api",
+            "isPrivate": true,
+            "stargazerCount": 0,
+            "primaryLanguage": { "name": "Python", "color": "#3572A5" },
+            "languages": { "edges": [
+              { "size": 12000, "node": { "name": "Python", "color": "#3572A5" } },
+              { "size": 300, "node": { "name": "Dockerfile", "color": "#384d54" } }
+            ] }
+          },
+          {
+            "name": "todo-fit-plus-showcase",
+            "isPrivate": false,
+            "stargazerCount": 0,
+            "primaryLanguage": null,
+            "languages": { "edges": [] }
+          }
+        ]
+      }
+    }
+  }
+}

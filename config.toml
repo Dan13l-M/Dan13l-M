@@ -1,0 +1,134 @@
+# Content for the profile panels. Edit this file, not the SVGs in generated/:
+# the daily workflow regenerates them from here plus live GitHub data.
+
+[identity]
+login = "Dan13l-M"
+name = "DANIEL M."
+handle = "Dan13l"
+role = "Backend Python · AI-powered products"
+location = "Mexico"
+chips = ["OPEN TO WORK", "REMOTE · LATAM / US", "MEXICO"]
+monogram = "DM"
+# Path to a square-ish JPG/PNG, relative to this file. Empty = neon monogram.
+avatar = ""
+
+[about]
+who = "Software Engineering student in my final semesters. I build Python backends and put LLMs to work inside real products: APIs with quotas and auth, tutors, task generators, document converters."
+now = [
+  "Shipping FastAPI services with PostgreSQL, Alembic and pytest",
+  "Integrating LLM providers: Groq, Gemini, OpenAI, Claude, Ollama",
+  "Training in Data Engineering: dbt, Prefect, BigQuery",
+  "Next: InsightFlow, a job tracker with market analytics",
+]
+
+[[record]]
+attribute = "Backend"
+stack = "Python · FastAPI · SQLAlchemy 2.0 · Pydantic v2 · pytest"
+evidence = "mochi-api · MD Studio"
+
+[[record]]
+attribute = "AI integration"
+stack = "LLM APIs · prompt design · quotas & fallbacks"
+evidence = "mochi-api · OmniTutor · ToDo-Fit Plus"
+
+[[record]]
+attribute = "Databases"
+stack = "PostgreSQL · Alembic · SQL"
+evidence = "mochi-api · Vitality Gym Lab"
+
+[[record]]
+attribute = "Product"
+stack = "TypeScript · Next.js · React · Flutter · Kotlin"
+evidence = "TitanFitness · UrbanFlow"
+
+[[record]]
+attribute = "Data Engineering"
+stack = "dbt · Prefect · BigQuery"
+evidence = "InsightFlow (in training)"
+
+[[arsenal]]
+label = "Backend"
+items = ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Pydantic", "pytest", "Docker"]
+
+[[arsenal]]
+label = "AI"
+items = ["Groq", "Gemini", "OpenAI", "Claude", "Ollama"]
+
+[[arsenal]]
+label = "Product"
+items = ["TypeScript", "Next.js", "React", "Flutter", "Kotlin"]
+
+[[arsenal]]
+label = "Data · training"
+items = ["dbt", "Prefect", "BigQuery"]
+
+[[crew]]
+repo = "todo-fit-plus-showcase"
+title = "ToDo-Fit Plus"
+mission = "Hybrid mobile app: typed daily tasks plus an AI-assisted training system. Docs and demos; source is private."
+tags = ["Python", "TypeScript", "AI"]
+
+[[crew]]
+repo = "UrbanFlow"
+title = "UrbanFlow"
+mission = "Last-mile fleet management: orders, automatic driver assignment, live vehicle tracking on a map, reports."
+tags = ["JavaScript", "Maps"]
+
+[[crew]]
+repo = "titanfitness-tracker"
+title = "TitanFitness"
+mission = "Progressive web app to log workouts in detail."
+tags = ["TypeScript", "PWA"]
+
+[[crew]]
+repo = "vitality-gym-lab"
+title = "Vitality Gym Lab"
+mission = "Gym platform: member sign-up, trainer sessions, progress history."
+tags = ["PHP", "SQL"]
+
+[[classified]]
+title = "mochi-api"
+mission = "FastAPI service that turns a plain request (\"leg day, 45 min, dumbbells\") into a structured task from an LLM. Invite codes, daily quotas, provider key kept server-side."
+tags = ["FastAPI", "PostgreSQL", "Alembic", "Docker", "CI"]
+
+[[classified]]
+title = "MD Studio"
+mission = "Markdown workspace with a FastAPI backend. Converts PDF, DOCX, PPTX, XLSX, HTML, EPUB and images (OCR) to Markdown; exports to PDF and DOCX."
+tags = ["FastAPI", "TypeScript"]
+
+[[classified]]
+title = "OmniTutor"
+mission = "Socratic AI tutor with four teaching modes, any LLM provider (including local Ollama), SM-2 spaced repetition and Anki export."
+tags = ["TypeScript", "LLMs"]
+
+[training]
+quote = "Not everyone who works hard succeeds, but everyone who succeeds has worked hard."
+
+[[training.rounds]]
+title = "Python backend: FastAPI, SQLAlchemy 2.0, pytest"
+status = "ring"
+
+[[training.rounds]]
+title = "LLMs inside products: providers, quotas, fallbacks"
+status = "ring"
+
+[[training.rounds]]
+title = "PostgreSQL: modeling, migrations, query plans"
+status = "ring"
+
+[[training.rounds]]
+title = "dbt + BigQuery: tested, documented models"
+status = "sparring"
+
+[[training.rounds]]
+title = "Prefect: orchestrated pipelines end to end"
+status = "sparring"
+
+[[training.rounds]]
+title = "InsightFlow: all of the above in one project"
+status = "next"
+
+[stats]
+# Markup and config languages inflate byte counts without saying much about skills.
+exclude_languages = ["HTML", "CSS", "SCSS", "Dockerfile", "Mako", "Shell", "PowerShell", "Batchfile", "Makefile", "CMake"]
+top_languages = 5

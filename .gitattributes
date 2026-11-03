@@ -1,0 +1,3 @@
+# LF everywhere so generated SVGs diff the same on Windows and on the Actions runner.
+* text=auto eol=lf
+*.woff2 binary

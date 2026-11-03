@@ -1,0 +1,33 @@
+[project]
+name = "profile-cards"
+version = "0.1.0"
+description = "Generates the neon SVG panels for the Dan13l-M GitHub profile README."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+profile-cards = "profile_cards.__main__:main"
+
+[dependency-groups]
+dev = ["mypy>=1.13", "pytest>=8.3", "ruff>=0.8"]
+
+[build-system]
+requires = ["uv_build>=0.9,<0.13"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "PTH"]
+# The formatter owns line length; long SVG/CSS string literals read better unsplit.
+ignore = ["E501"]
+
+[tool.mypy]
+strict = true
+files = ["src", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
