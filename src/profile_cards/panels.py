@@ -374,10 +374,13 @@ def power(ctx: Context) -> str:
     s = metrics.streaks(p.days, ctx.today)
     parts = [header("戦闘力", "POWER LEVEL", "// live · refreshed daily")]
 
+    # Commit/PR totals undercount private work with fine-grained tokens, while the
+    # calendar and repo list don't, so the tiles are built from those.
+    active = sum(1 for d in p.days if d.count > 0)
     tiles = (
         ("CONTRIBUTIONS", f"{p.total_contributions:,}", "last 12 months", CYAN),
-        ("COMMITS", f"{p.commits:,}", "last 12 months", MAGENTA),
-        ("PULL REQUESTS", f"{p.pull_requests:,}", "last 12 months", PURPLE),
+        ("ACTIVE DAYS", f"{active}", f"of the last {len(p.days)}", MAGENTA),
+        ("REPOSITORIES", f"{len(p.repos)}", "built and owned", PURPLE),
         ("STREAK", f"{s.current}d", f"best {s.longest}d", GREEN),
     )
     for i, (label, value, sub, color) in enumerate(tiles):

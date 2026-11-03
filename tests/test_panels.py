@@ -46,6 +46,9 @@ def test_user_text_is_escaped(ctx: Context) -> None:
 def test_live_numbers_reach_the_panels(ctx: Context) -> None:
     files = render_all(ctx)
     assert ">48<" in files["power.svg"]
+    # 12 of the fixture's 17 calendar days have activity; it owns 3 repos.
+    assert ">12<" in files["power.svg"]
+    assert ">3<" in files["power.svg"]
     assert "48" in files["wanted.svg"]
     assert "★ 2" in files["crew-urbanflow.svg"]
 
